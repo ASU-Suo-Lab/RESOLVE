@@ -156,14 +156,23 @@ DATA_ROOT
 │   │   │   │   │   │    │    └   ...
 │   │   │   │   │   │    │── 📂 1 # cooperative_agents data
 │   │   │   │   │   └   ...
-│   │   │   │   │   │── 📊 sunlakes_infos_train.pkl
-│   │   │   │   │   │── 📊 sunlakes_infos_val.pkl
-│   │   │   │   │   │── 📊 sunlakes_dbinfos_train.pkl
 │   │   │   │   │── 📂 validate
 │   │   │   │   │── 📂 openpcdet_eval # used to support OpenPCDet-style evaluation.
+│   │   │   │   │   │── 📂 v1.0-trainval
+│   │   │   │   │   │    │── 📊 sunlakes_infos_train.pkl
+│   │   │   │   │   │    │── 📊 sunlakes_infos_val.pkl
 ├── pcdet
 ├── tools
 ```
+
+We provide a script for training various cooperative perception methods on the RESOLVE dataset. Before training, update `root_dir` and `validate_dir` in the corresponding configuration files under `cooperative/opencood/hypes_yaml` with the local dataset paths on your machine. 
+
+For example, to train a model using 4 GPUs:
+```shell script
+#  MODEL: no_fusion | late_fusion | early_fusion | attentive_fusion | fcooper | cobevt | v2xvit
+sh run_sunlakes_4gpu.sh train ${MODEL}
+```
+
 ## 🔍 Models Zoo
 
 ###  3D Object Detection Benchmarks
@@ -181,7 +190,17 @@ DATA_ROOT
 | [BEVFusion](tools/cfgs/sunlakes_models/bevfusion.yaml)    | LiDAR + Camera | Sparse Convolution   | 86.3 / 79.8          | 92.6 / 84.8        | 93.1 / 86.4        | 
 | [UniTR](tools/cfgs/sunlakes_models/unitr.yaml)        | LiDAR + Camera | Transformer          | 89.7 / 83.7          | 94.4 / 87.3        | 94.9 / 87.4        |
 
+###  Agent-level Cooperative Perception Benchmarks
 
+| Model        |   Low Resolution     | Mid Resolution     | High Resolution    |
+|--------------|----------------------|--------------------|--------------------|
+| [No Fusion](cooperative/opencood/hypes_yaml/sunlakes_point_pillar_no_fusion.yaml)      | 31.6          | 50.3        | 52.9        |
+| [Early Fusion](cooperative/opencood/hypes_yaml/sunlakes_point_pillar_early_fusion.yaml)        | 48.6          | 61.0        | 66.0        |
+| [Late Fusion](cooperative/opencood/hypes_yaml/sunlakes_point_pillar_late_fusion.yaml)    | 31.0          | 56.8        | 58.0        | 
+| [AttFuse](cooperative/opencood/hypes_yaml/sunlakes_point_pillar_attentive_fusion.yaml)        | 43.7          | 67.4        | 72.9        | 
+| [F-Cooper](cooperative/opencood/hypes_yaml/sunlakes_point_pillar_fcooper.yaml)            | 36.8          | 63.2        | 68.9        |
+| [CoBEVT](cooperative/opencood/hypes_yaml/sunlakes_point_pillar_cobevt.yaml)                | 43.5          | 64.0        | 69.5        | 
+| [V2X-ViT](cooperative/opencood/hypes_yaml/sunlakes_point_pillar_v2xvit.yaml)        | 43.0          | 67.5        | 71.5        | 
 --- 
 ## 📝 License
 
