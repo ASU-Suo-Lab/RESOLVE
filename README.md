@@ -9,8 +9,8 @@
 Stay up to date with the latest news, updates, and important notices regarding RESOLVE:
 
 - **`2026/06/18`**: Paper accepted at ECCV 2026 🎉.
-- **`2026/06/21`**: The v0.1 dataset and benchmark code for 3D object detection has been released. The currently supported 3D object detection models are as follows: [PointPillars](https://arxiv.org/abs/1812.05784), [SECOND](https://www.mdpi.com/1424-8220/18/10/3337), [CenterPoint](https://arxiv.org/abs/2006.11275), [TransFusion](https://arxiv.org/abs/2203.11496), [VoxSeT](https://arxiv.org/abs/2203.10314), [DSVT](https://arxiv.org/abs/2301.06051), [Voxel Mamba](https://arxiv.org/abs/2406.10700), [LION](https://arxiv.org/abs/2407.18232), [BEVFusion](https://arxiv.org/abs/2205.13542), [UniTR](https://arxiv.org/abs/2308.07732)
-- **`2026/06/22`**: The benchmark code for 3D multi-object tracking has been released. The currently supported 3D multi-object tracking models are as follows: [AB3DMOT](https://arxiv.org/abs/2008.08063), [CenterPoint](https://arxiv.org/abs/2006.11275), [SimpleTrack](https://arxiv.org/abs/2111.09621), [Poly-MOT](https://arxiv.org/abs/2307.16675), [MCTrack](https://arxiv.org/abs/2409.16149)
+- **`2026/06/21`**: The v0.1.0 dataset and benchmark code for 3D object detection has been released. The currently supported detection models are as follows: [PointPillars](https://arxiv.org/abs/1812.05784), [SECOND](https://www.mdpi.com/1424-8220/18/10/3337), [CenterPoint](https://arxiv.org/abs/2006.11275), [TransFusion](https://arxiv.org/abs/2203.11496), [VoxSeT](https://arxiv.org/abs/2203.10314), [DSVT](https://arxiv.org/abs/2301.06051), [Voxel Mamba](https://arxiv.org/abs/2406.10700), [LION](https://arxiv.org/abs/2407.18232), [BEVFusion](https://arxiv.org/abs/2205.13542), [UniTR](https://arxiv.org/abs/2308.07732)
+- **`2026/06/22`**: The benchmark code for 3D multi-object tracking has been released. The currently supported tracking models are as follows: [AB3DMOT](https://arxiv.org/abs/2008.08063), [CenterPoint](https://arxiv.org/abs/2006.11275), [SimpleTrack](https://arxiv.org/abs/2111.09621), [Poly-MOT](https://arxiv.org/abs/2307.16675), [MCTrack](https://arxiv.org/abs/2409.16149)
 
 ## ✅ TODO
 
@@ -20,27 +20,122 @@ Stay up to date with the latest news, updates, and important notices regarding R
 - [ ] Release the benchmark code for cooperative perception
 
 
-## Data Download
-You can download the v0.1 dataset via this [dropbox link](https://www.dropbox.com/scl/fi/uym5i78ih5fmr7lxxyu9g/202_scenes.zip?rlkey=x63s104j8bapaqpx4io47chi9&st=9396mm29&dl=0).
+## 🔓 Data Download
+You can download the v0.1.0 dataset via this [Dropbox link](https://www.dropbox.com/scl/fi/uym5i78ih5fmr7lxxyu9g/202_scenes.zip?rlkey=x63s104j8bapaqpx4io47chi9&st=9396mm29&dl=0), and the corresponding annotation file via this [link](https://www.dropbox.com/scl/fi/re4dhjugc61ba3acat2a9/HSQJN_3.json?rlkey=cbi79sbzkikhu6rjmkysyw12z&st=m3rhphw0&dl=0).
 
 After downloading the data, please put the data in the following structure:
-```shell
-├── v2xreal
-│   ├── train
-|      |── 2023-03-17-15-53-02_1_0
-│   ├── validate
-│   ├── test
+```
+DATA_ROOT
+├── data
+│   ├── sunlakes
+│   │   │   │── 📂 2026-01-04_18_02_01-export
+│   │   │   │   │── 📂 rosbag2_2025_10_14-07_21_21
+│   │   │   │   │   │── 📂 16_16b_sync
+│   │   │   │   │   │    │── 📄 1760451628-250275702.bin # point cloud fused by two low resolution lidar
+│   │   │   │   │   │    └   ...
+│   │   │   │   │   │── 📂 64_64b_sync
+│   │   │   │   │   │── 📂 128_128b_sync
+│   │   │   │   │   │── 📂 ouster64b_sync
+│   │   │   │   │   │    │── 📄 1760451628-250275702.bin # point cloud captured by the low-resolution LiDAR at the northwest corner of the intersection
+│   │   │   │   │   │    └   ...
+│   │   │   │   │   │── 📂 ouster64_sync
+│   │   │   │   │   │── 📂 ouster128b_sync
+│   │   │   │   │   │── 📂 ouster128_sync
+│   │   │   │   │   │── 📂 rslidar16b_sync
+│   │   │   │   │   │── 📂 rslidar16_sync
+│   │   │   │   │   │── 📂 axis1_sync
+│   │   │   │   │   │    │── 🖼️ 1760451681-076657049.jpg # image captured by the camera located south of the intersection.
+│   │   │   │   │   │    └   ...
+│   │   │   │   │   │── 📂 axis2_sync
+│   │   │   │   │   │── 📂 axis3_sync
+│   │   │   │   │   │── 📂 axis4_sync
+│   │   │   │   │   │── 📂 calibration_txt
+│   │   │   │   │   │    │── 📂 axis1__ouster128b
+│   │   │   │   │   │    │    │── 📊 1760451681-076657049__1760451628-150432431_calibration.txt
+│   │   │   │   │   │    │    └   ...
+│   │   │   │   │   │    │── 📂 axis2__ouster128b
+│   │   │   │   │   │    │── 📂 axis3__ouster128b
+│   │   │   │   │   │    │── 📂 axis4__ouster128b
+│   │   │   │   │── 📊 HSQJN_3.json # annotation information file
+│   │   │   │   └   ...
+│   │   │   └   ...
+├── pcdet
+├── tools
 ```
 
-## Quick Start
+## 🏋️ Getting Started
+### Requirements
+All the codes are tested in the following environment:
+* Ubuntu 22.04
+* Python 3.10.19
+* PyTorch 2.8.0
+* CUDA 12.8
+* [`spconv v2.x`](https://github.com/traveller59/spconv)
+
 ### 3D Object Detection
+We implement 3d object detection based on OpenPCDet. Please follow [OpenPCDet's official instructions](https://github.com/open-mmlab/OpenPCDet/blob/master/docs/INSTALL.md) to set up the environment first. Please note that for Voxel Mamba and LION, you need to install mamba-ssm separately by following the [instruction](https://github.com/happinesslz/LION/blob/main/docs/INSTALL.md).
+
+Then generate the data infos by running the following command and data at different resolutions can be generated by setting the `sensor_type` parameter:
+```bash
+#  os128: high-resolution LiDAR data, os64: medium-resolution LiDAR data, rs16: low-resolution LiDAR data
+python tools/create_sunlakes_data_v3.py --data_root ../data/sunlakes  --sensor_type os128 
+```
+
+After generating the data infos, organize the data to follow the nuScenes directory structure:
+```
+DATA_ROOT
+├── data
+│   ├── sunlakes
+│   │   │   │── 📂 2026-01-04_18_02_01-export
+│   │   │   │   │── 📂 v1.0-trainval
+│   │   │   │   │   │── 📂 sunlakes_gt_database
+│   │   │   │   │   │    │── 📄 0_car_0.bin
+│   │   │   │   │   │    └   ...
+│   │   │   │   │   │── 📂 sunlakes_img_gt_database
+│   │   │   │   │   │    │── 🖼️ 0_car_0.jpg
+│   │   │   │   │   │    └   ...
+│   │   │   │   │   │── 📊 sunlakes_infos_train.pkl
+│   │   │   │   │   │── 📊 sunlakes_infos_val.pkl
+│   │   │   │   │   │── 📊 sunlakes_dbinfos_train.pkl
+│   │   │   │── 📂 lidar_pc_with_ts  # each point cloud segment is rotated to fit within a regular rectangular region.
+│   │   │   │   │── 📂 rosbag2_2025_10_14-07_21_21
+│   │   │   │   │   │── 📂 16_16b_sync  # the resolution of the generated LiDAR data is controlled by the `sensor_type` parameter.
+│   │   │   │   │   │    │── 📄 1760451628-250275702.bin
+│   │   │   │   │   │    └   ...
+│   │   │   │   └   ...
+├── pcdet
+├── tools
+```
+
+When training a model at a specific resolution, ensure that `DATA_PATH` in `cfgs/dataset_configs/sunlakes_dataset.yaml` is set to the directory corresponding to that resolution.
+```shell script
+# train with multiple GPUs
+sh scripts/dist_train.sh 4 --cfg_file cfgs/sunlakes_models/bevfusion.yaml
+
+# train with a single GPU:
+python train.py --cfg_file ${CONFIG_FILE}
+```
+
+To test and evaluate the pretrained models:
+```shell script
+# test with multiple GPUs
+sh scripts/dist_test.sh 4 --cfg_file ${CONFIG_FILE} --batch_size ${BATCH_SIZE} --ckpt ${CKPT}
+```
 
 ### 3D Multi-Object Tracking
+As a prerequisite, the object detection algorithm should be executed to generate the corresponding detection results `results_nusc.json`. Also refer to the original repositories for instructions on setting up the environments required by each tracking algorithm.
+
+After setup, replace the paths for `data_root` and `pred_json` with the local paths on your machine, and then run tracking script:
+```bash
+cd mot/MCTrack
+# training and evaluation
+python tracking.py --data_root your_path/sunlakes_infos_train.pkl --pred_json your_path/results_nusc.json
+```
 
 ### Cooperative Perception
 
 
-## Models Zoo
+## 🔍 Models Zoo
 
 ###  3D Object Detection Benchmarks
 
