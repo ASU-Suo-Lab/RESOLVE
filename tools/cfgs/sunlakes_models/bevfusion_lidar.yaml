@@ -1,0 +1,145 @@
+CLASS_NAMES: ['car','truck', 'construction_vehicle', 'bus', 'trailer',
+              'barrier', 'motorcycle', 'bicycle', 'pedestrian', 'traffic_cone']
+
+DATA_CONFIG:
+    _BASE_CONFIG_: cfgs/dataset_configs/sunlakes_dataset.yaml
+    POINT_CLOUD_RANGE: [-60, -60, -8.0, 88.8, 88.8, 0]
+
+    DATA_PROCESSOR:
+        - NAME: mask_points_and_boxes_outside_range
+          REMOVE_OUTSIDE_BOXES: True
+
+        - NAME: shuffle_points
+          SHUFFLE_ENABLED: {
+            'train': True,
+            'test': True
+          }
+
+        - NAME: transform_points_to_voxels
+          VOXEL_SIZE: [0.3, 0.3, 0.2]
+          MAX_POINTS_PER_VOXEL: 10
+          MAX_NUMBER_OF_VOXELS: {
+            'train': 120000,
+            'test': 160000
+          }
+
+
+MODEL:
+    NAME: TransFusion
+    
+    VFE:
+        NAME: MeanVFE
+
+    BACKBONE_3D:
+        NAME: VoxelResBackBone8x
+        USE_BIAS: False
+        IN_CHANNEL: 5
+        GRID_SIZE: [ 496, 496, 40 ]
+
+    MAP_TO_BEV:
+        NAME: HeightCompression
+        NUM_BEV_FEATURES: 256
+    
+    BACKBONE_2D:
+        NAME: BaseBEVBackbone
+        LAYER_NUMS: [5, 5]
+        LAYER_STRIDES: [1, 2]
+        NUM_FILTERS: [128, 256]
+        UPSAMPLE_STRIDES: [1, 2]
+        NUM_UPSAMPLE_FILTERS: [256, 256]
+        USE_CONV_FOR_NO_STRIDE: True
+
+
+    DENSE_HEAD:
+        CLASS_AGNOSTIC: False
+        NAME: TransFusionHead
+
+        USE_BIAS_BEFORE_NORM: False
+
+        NUM_PROPOSALS: 200
+        HIDDEN_CHANNEL: 128
+        NUM_CLASSES: 10
+        NUM_HEADS: 8
+        NMS_KERNEL_SIZE: 3
+        FFN_CHANNEL: 256
+        DROPOUT: 0.1
+        BN_MOMENTUM: 0.1
+        ACTIVATION: relu
+
+        NUM_HM_CONV: 2
+        SEPARATE_HEAD_CFG:
+            HEAD_ORDER: ['center', 'height', 'dim', 'rot', 'vel']
+            HEAD_DICT: {
+                'center': {'out_channels': 2, 'num_conv': 2},
+                'height': {'out_channels': 1, 'num_conv': 2},
+                'dim': {'out_channels': 3, 'num_conv': 2},
+                'rot': {'out_channels': 2, 'num_conv': 2},
+                'vel': {'out_channels': 2, 'num_conv': 2},
+            }
+      
+        TARGET_ASSIGNER_CONFIG:
+            FEATURE_MAP_STRIDE: 8
+            DATASET: nuScenes
+            GAUSSIAN_OVERLAP: 0.1
+            MIN_RADIUS: 2
+            HUNGARIAN_ASSIGNER:
+                cls_cost: {'gamma': 2.0, 'alpha': 0.25, 'weight': 0.15}
+                reg_cost: {'weight': 0.25}
+                iou_cost: {'weight': 0.25}
+        
+        LOSS_CONFIG:
+            LOSS_WEIGHTS: {
+                    'cls_weight': 1.0,
+                    'bbox_weight': 0.25,
+                    'hm_weight': 1.0,
+                    'loss_iou_rescore_weight': 0.5,
+                    'code_weights': [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.2, 0.2]
+                }
+            LOSS_CLS:
+                use_sigmoid: True
+                gamma: 2.0
+                alpha: 0.25
+          
+        POST_PROCESSING:
+            SCORE_THRESH: 0.0
+            POST_CENTER_RANGE:  [ -70, -70, -10, 95, 95, 2 ]
+            USE_IOU_TO_RECTIFY_SCORE: True
+            IOU_RECTIFIER: [ 0.5 ]
+            NMS_CONFIG:
+              NMS_TYPE: nms_gpu
+              NMS_THRESH: 0.2
+              NMS_PRE_MAXSIZE: 1000
+              NMS_POST_MAXSIZE: 100
+              SCORE_THRES: 0.
+
+    POST_PROCESSING:
+        RECALL_THRESH_LIST: [0.3, 0.5, 0.7]
+        SCORE_THRESH: 0.1
+        OUTPUT_RAW_SCORE: False
+        EVAL_METRIC: kitti
+
+
+
+OPTIMIZATION:
+    # batch_size 选择会影响depth_lss中depth的形状，需考虑train和val数据的长度, 需要修改VTRANSFORM的batch size
+    BATCH_SIZE_PER_GPU: 4
+    NUM_EPOCHS: 10
+
+    OPTIMIZER: adam_cosineanneal
+    LR: 0.0001
+    WEIGHT_DECAY: 0.01
+    MOMENTUM: 0.9
+    BETAS: [0.9, 0.999]
+
+    MOMS: [0.9, 0.8052631]
+    PCT_START: 0.4
+    WARMUP_ITER: 500
+
+    DECAY_STEP_LIST: [35, 45]
+    LR_WARMUP: False
+    WARMUP_EPOCH: 1
+
+    GRAD_NORM_CLIP: 35
+
+    LOSS_SCALE_FP16: 32
+  
