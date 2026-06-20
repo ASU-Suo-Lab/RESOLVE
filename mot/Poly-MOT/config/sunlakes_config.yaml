@@ -1,0 +1,51 @@
+basic:
+  split: 'val'
+  has_velo: True
+  LiDAR_interval: 0.1   
+  CLASS_NUM: 10         
+
+preprocessing:
+  # 每个类都要有阈值 (0~9)
+  SF_thre: {0: 0.15, 1: 0.10, 2: 0.20, 3: 0.20, 4: 0.20, 5: 0.10, 6: 0.05, 7: 0.15, 8: 0.20, 9: 0.20}
+
+
+  NMS_thre: 0.08
+  NMS_type: blend_nms
+  NMS_metric: iou_bev
+
+association:
+  category_metrics: {0: 'giou_bev', 1: 'giou_bev', 2: 'giou_3d', 3: 'giou_3d', 4: 'giou_3d', 5: 'giou_bev', 6: 'giou_bev', 7: 'giou_bev', 8: 'giou_3d', 9: 'giou_3d'}
+
+  second_metric: 'giou_bev'
+  two_stage: True
+  # 只允许 cost ≤ first_thre 的匹配对进入 one-stage 的匹配结果
+  first_thre: {0: 1.50, 1: 1.55, 2: 1.34, 3: 1.31, 4: 1.40, 5: 1.44, 6: 1.69, 7: 1.40, 8: 1.25, 9: 1.21}
+  # 你原来 second_thre 只有 {0:1.0}，其实两阶段通常用统一阈值即可
+  second_thre: {0: 1.0}
+  algorithm: 'Hungarian'
+
+motion_model:
+  # 先沿用你的默认风格：行人/车用 CTRA；两轮 BICYCLE；锥桶/栏杆用 CA/CV 都行
+  filter: {0: 'LinearKalmanFilter', 1: 'ExtendKalmanFilter', 2: 'ExtendKalmanFilter', 3: 'ExtendKalmanFilter',
+           4: 'ExtendKalmanFilter', 5: 'ExtendKalmanFilter', 6: 'ExtendKalmanFilter', 7: 'LinearKalmanFilter',
+           8: 'LinearKalmanFilter', 9: 'ExtendKalmanFilter'}
+
+  model: {0: 'CV', 1: 'BICYCLE', 2: 'CTRA', 3: 'CTRA',
+          4: 'CTRA', 5: 'BICYCLE', 6: 'CTRA', 7: 'CV',
+          8: 'CA', 9: 'CTRA'}
+
+life_cycle:
+  # ✅每类 max_age/min_hit/decay_rate 都要有
+  max_age:   {0: 10, 1: 10, 2: 10, 3: 15, 4: 10, 5: 20, 6: 10, 7: 10, 8: 10, 9: 20}
+  min_hit:   {0: 1,  1: 1,  2: 1,  3: 1,  4: 1,  5: 1,  6: 1,  7: 1,  8: 1,  9: 1}
+  decay_rate:  {0: 0.10,1: 0.05,2: 0.30,3: 0.20,4: 0.15,5: 0.10,6: 0.15,7: 0.10,8: 0.15,9: 0.25}
+
+output:
+  punish_num: 1
+  post_nms: False
+  NMS_thre: 0.08
+  NMS_type: blend_nms
+  NMS_metric: iou_bev
+
+debug:
+  is_debug: true
