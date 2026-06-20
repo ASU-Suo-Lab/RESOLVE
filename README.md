@@ -9,15 +9,15 @@
 Stay up to date with the latest news, updates, and important notices regarding RESOLVE:
 
 - **`2026/06/18`**: Paper accepted at ECCV 2026 🎉.
-- **`2026/06/21`**: The v0.1.0 dataset and benchmark code for 3D object detection has been released. The currently supported detection models are as follows: [PointPillars](https://arxiv.org/abs/1812.05784), [SECOND](https://www.mdpi.com/1424-8220/18/10/3337), [CenterPoint](https://arxiv.org/abs/2006.11275), [TransFusion](https://arxiv.org/abs/2203.11496), [VoxSeT](https://arxiv.org/abs/2203.10314), [DSVT](https://arxiv.org/abs/2301.06051), [Voxel Mamba](https://arxiv.org/abs/2406.10700), [LION](https://arxiv.org/abs/2407.18232), [BEVFusion](https://arxiv.org/abs/2205.13542), [UniTR](https://arxiv.org/abs/2308.07732)
-- **`2026/06/22`**: The benchmark code for 3D multi-object tracking has been released. The currently supported tracking models are as follows: [AB3DMOT](https://arxiv.org/abs/2008.08063), [CenterPoint](https://arxiv.org/abs/2006.11275), [SimpleTrack](https://arxiv.org/abs/2111.09621), [Poly-MOT](https://arxiv.org/abs/2307.16675), [MCTrack](https://arxiv.org/abs/2409.16149)
-
+- **`2026/06/20`**: The v0.1.0 dataset and benchmark code for 3D object detection are released. The currently supported detection models are as follows: [PointPillars](https://arxiv.org/abs/1812.05784), [SECOND](https://www.mdpi.com/1424-8220/18/10/3337), [CenterPoint](https://arxiv.org/abs/2006.11275), [TransFusion](https://arxiv.org/abs/2203.11496), [VoxSeT](https://arxiv.org/abs/2203.10314), [DSVT](https://arxiv.org/abs/2301.06051), [Voxel Mamba](https://arxiv.org/abs/2406.10700), [LION](https://arxiv.org/abs/2407.18232), [BEVFusion](https://arxiv.org/abs/2205.13542), [UniTR](https://arxiv.org/abs/2308.07732)
+- **`2026/06/22`**: The benchmark code for 3D multi-object tracking is released. The currently supported tracking models are as follows: [AB3DMOT](https://arxiv.org/abs/2008.08063), [CenterPoint](https://arxiv.org/abs/2006.11275), [SimpleTrack](https://arxiv.org/abs/2111.09621), [Poly-MOT](https://arxiv.org/abs/2307.16675), [MCTrack](https://arxiv.org/abs/2409.16149)
+- **`2026/06/24`**: The benchmark code for agent-level cooperative perception is released. The currently supported cooperative models are as follows: [AttFuse]([https://arxiv.org/abs/2008.08063](https://arxiv.org/abs/2109.07644)), [F-Cooper](https://arxiv.org/abs/1909.06459), [CoBEVT](https://arxiv.org/abs/2207.02202), [V2X-ViT](https://arxiv.org/abs/2203.10638)
 ## ✅ TODO
 
 - [x] Release the RESOLVE dataset
 - [x] Release the benchmark code for 3D object detection
 - [x] Release the benchmark code for 3D multi-object tracking
-- [ ] Release the benchmark code for cooperative perception
+- [x] Release the benchmark code for cooperative perception
 
 
 ## 🔓 Data Download
@@ -133,8 +133,37 @@ python tracking.py --data_root your_path/sunlakes_infos_train.pkl --pred_json yo
 ```
 
 ### Cooperative Perception
+We implement agent-level cooperative perception based on OpenCOOD. Please follow [OpenCOOD's official instructions](https://opencood.readthedocs.io/en/latest/md_files/installation.html) to set up the environment first.
 
+Next, run the following commands to generate the data infos. By configuring the `ego_sensor` and `cooperative_agents` parameters, you can generate data for different agents and LiDAR resolutions.
+```bash
+cd cooperative/opencood/
+#  os128/os128b: high-resolution LiDAR agents, os64/os64b: medium-resolution LiDAR agents, rs16/rs16b: low-resolution LiDAR agents
+python tools/create_sunlakes_opencood.py --data_root ../data/sunlakes  --output_root your_output_path --ego_sensor os128b --cooperative_agents os128
+```
 
+After generating the data infos, organize the data to follow the directory structure:
+```
+DATA_ROOT
+├── data
+│   ├── sunlakes
+│   │   │   │── 📂 your_output_path
+│   │   │   │   │── 📂 train
+│   │   │   │   │   │── 📂 2026-01-04_18_02_01-export__68fce85d185a9dc2c167cae6 
+│   │   │   │   │   │    │── 📂 0 # ego_sensor data
+│   │   │   │   │   │    │    │── 📄 1760718487-550083650.pcd  # point cloud from one agent at a specific timestamp
+│   │   │   │   │   │    │    │── 📄 1760718487-550083650.yaml # label information from one agent at a specific timestamp
+│   │   │   │   │   │    │    └   ...
+│   │   │   │   │   │    │── 📂 1 # cooperative_agents data
+│   │   │   │   │   └   ...
+│   │   │   │   │   │── 📊 sunlakes_infos_train.pkl
+│   │   │   │   │   │── 📊 sunlakes_infos_val.pkl
+│   │   │   │   │   │── 📊 sunlakes_dbinfos_train.pkl
+│   │   │   │   │── 📂 validate
+│   │   │   │   │── 📂 openpcdet_eval # used to support OpenPCDet-style evaluation.
+├── pcdet
+├── tools
+```
 ## 🔍 Models Zoo
 
 ###  3D Object Detection Benchmarks
