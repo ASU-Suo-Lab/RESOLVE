@@ -21,7 +21,7 @@ Stay up to date with the latest news, updates, and important notices regarding R
 
 
 ## 🔓 Data Download
-You can download the v0.1.0 dataset via this [Dropbox link](https://www.dropbox.com/scl/fi/uym5i78ih5fmr7lxxyu9g/202_scenes.zip?rlkey=x63s104j8bapaqpx4io47chi9&st=9396mm29&dl=0), and the corresponding annotation file via this [link](https://www.dropbox.com/scl/fi/re4dhjugc61ba3acat2a9/HSQJN_3.json?rlkey=cbi79sbzkikhu6rjmkysyw12z&st=m3rhphw0&dl=0).
+You can download the v0.1.0 dataset via this Dropbox link, and the corresponding annotation file via this [link](https://www.dropbox.com/scl/fi/re4dhjugc61ba3acat2a9/HSQJN_3.json?rlkey=cbi79sbzkikhu6rjmkysyw12z&st=m3rhphw0&dl=0).
 
 After downloading the data, please put the data in the following structure:
 ```
