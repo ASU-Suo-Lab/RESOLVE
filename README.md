@@ -23,7 +23,7 @@ Stay up to date with the latest news, updates, and important notices regarding R
 ## 🔓 Data Download
 You can download the v0.1.0 dataset via this [Dropbox link](https://www.dropbox.com/scl/fo/dyopemtv8wp1gdqibv3xq/AOSzowru0Kv_DXkzGbUyHd0?rlkey=9g0fjo1w6qlqxozfrcakfbwx3&st=hs8n9tik&dl=0).
 
-After downloading the data, please put the data in the following structure:
+After downloading and decompressing the data, please organize the data to the following structure:
 ```
 DATA_ROOT
 ├── data
