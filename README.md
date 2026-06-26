@@ -21,7 +21,7 @@ Stay up to date with the latest news, updates, and important notices regarding R
 
 
 ## 🔓 Data Download
-You can download the v0.1.0 dataset via this [Dropbox link](https://www.dropbox.com/scl/fo/dyopemtv8wp1gdqibv3xq/AOSzowru0Kv_DXkzGbUyHd0?rlkey=9g0fjo1w6qlqxozfrcakfbwx3&st=hs8n9tik&dl=0).
+The v0.1.0 RESOLVE Dataset is available upon request. Please complete the [**Data Request Form**](https://docs.google.com/forms/d/e/1FAIpQLSfd00G4eSLqWuqtdUOekNfyT9oihNA87RgCflvemejIhnJIug/viewform?usp=publish-editor) to apply for access. Approved applicants will receive the dataset download links via email.
 
 After downloading and decompressing the data, please organize the data to the following structure:
 ```
