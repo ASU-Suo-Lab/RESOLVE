@@ -21,7 +21,7 @@ Stay up to date with the latest news, updates, and important notices regarding R
 
 
 ## 📦 Data Download
-The RESOLVE Dataset is available upon registration. Please complete the [**Data Request Form**]((https://docs.google.com/forms/d/e/1FAIpQLSfd00G4eSLqWuqtdUOekNfyT9oihNA87RgCflvemejIhnJIug/viewform?usp=publish-editor)) to receive the download link via email.
+The RESOLVE Dataset is available upon registration. Please complete the [**Data Request Form**](https://docs.google.com/forms/d/e/1FAIpQLSfd00G4eSLqWuqtdUOekNfyT9oihNA87RgCflvemejIhnJIug/viewform?usp=publish-editor) to receive the download link via email.
 
 After downloading and decompressing the data, please organize the data to the following structure:
 ```
