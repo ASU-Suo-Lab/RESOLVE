@@ -207,4 +207,17 @@ sh run_sunlakes_4gpu.sh train ${MODEL}
 - **Code**: Licensed under the **MIT** License. See [LICENSE](LICENSE) file for details.
 
 - **Dataset**: Licensed under the Creative Commons Attribution 4.0 International [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en). You must give appropriate credit; Cannot be used for commercial purposes; You may not distribute modified versions of the dataset.
---- 
+
+## 📖 Citation
+If you use RESOLVE Dataset, please cite:
+```bibtex
+@misc{resolve2026,
+      title={RESOLVE: A Multi-Resolution and Multi-Modal Dataset for Roadside Cooperative Perception}, 
+      author={Shaozu Ding and Linan Song and Marco De Vincenzi and Dajiang Suo},
+      year={2026},
+      eprint={2606.31895},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2606.31895}, 
+}
+```
